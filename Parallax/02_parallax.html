@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>parallax scroll</title>
+  <link rel="stylesheet" href="../css/reset.css">
+  <style>
+    .wrap {
+      position: relative;
+    }
+
+    .parallax {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 100vh;
+      z-index: -1;
+    }
+
+    h1 {
+      position: absolute;
+      top: 30vh;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 100px;
+    }
+
+    .contents {
+      width: 100%;
+      height: 100vh;
+      margin-top: 100vh;
+      background: rgb(255, 177, 163);
+    }
+  </style>
+</head>
+
+<body>
+  <main class="wrap">
+    <section class="parallax">
+      <h1>parallax</h1>
+    </section>
+    <div class="contents">
+    </div>
+  </main>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script>
+    const $parallax = $('.parallax');
+    $(window).scroll(() => {
+      let scroll = $(this).scrollTop();
+      const winH = window.innerHeight;
+      if (scroll > winH) scroll = winH
+
+      $parallax.css({
+        transform: `translateY( -${scroll / 4}px)`
+      })
+    })
+  </script>
+</body>
+
+</html>
