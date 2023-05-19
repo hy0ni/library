@@ -1,0 +1,69 @@
+@charset "utf8";
+
+* {
+  box-sizing: border-box;
+  margin: 0 auto;
+}
+
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: #000;
+}
+
+body {
+  position: relative;
+  background-color: #fff;
+}
+
+.wrap {
+  position: relative;
+  /* max-width: 1440px; */
+  background-color: #fff;
+  padding-top: 100vh;
+}
+
+.title {
+  color: #fff;
+}
+
+.parallax {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 1;
+}
+
+.parallax-txt {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: inline-block;
+  font-size: 50px;
+  color: #000000;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.main {
+  position: relative;
+  /* background-color: #fff; */
+  z-index: 5;
+}
+
+section {
+  position: relative;
+  width: 100%;
+  height: 700px;
+  z-index: 99;
+  font-size: 60px;
+  border: 1px solid #000;
+  text-align: center;
+}
