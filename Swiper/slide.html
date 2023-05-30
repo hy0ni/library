@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>slide</title>
+  <link rel="stylesheet" href="../front/resource/css/front.min.css">
+  <style>
+    .slide-wrapper {
+      position: relative;
+      width: 660px;
+      margin: 0 auto;
+      height: 200px;
+      overflow: hidden;
+    }
+
+    .slides {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: flex;
+    }
+
+    .slides.animated {
+      transition: 0.5s ease-out;
+    }
+
+    .slides li {
+      width: 200px;
+      height: 200px;
+      background: #ccc;
+    }
+
+    .slides li:not(:last-of-type) {
+      margin-right: 30px;
+    }
+
+    .controls {
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    .controls span {
+      border: 1px solid #000;
+      cursor: pointer;
+    }
+
+    .pagination>li {
+      color: #ccc;
+      cursor: pointer;
+    }
+
+    .pagination>li.active {
+      color: #000;
+    }
+
+    /* .pagination ul:after {
+      content: "";
+      display: block;
+      clear: both;
+    } */
+  </style>
+</head>
+
+<body>
+  <div class="slide-wrapper">
+    <ul class="slides">
+      <li>slide 01</li>
+      <li>slide 02</li>
+      <li>slide 03</li>
+      <li>slide 04</li>
+    </ul>
+  </div>
+  <p class="controls">
+    <span class="prev">이전</span>
+    <span class="next">다음</span>
+  </p>
+
+  <ul class="pagination">
+    <li class="active" data-idx="0">menu1</li>
+    <li data-idx="1">menu2</li>
+    <li data-idx="2">menu3</li>
+    <li data-idx="3">menu4</li>
+  </ul>
+
+  <script>
+    let slides = document.querySelector('.slides')
+    let slide = document.querySelectorAll('.slides li');
+    let currentIdx = 0;
+    let slideCount = slide.length;
+    let slideWidth = 200;
+    let slideMargin = 30;
+    let prevBtn = document.querySelector('.prev');
+    let nextBtn = document.querySelector('.next');
+
+    let pagination = document.querySelectorAll('.pagination li')
+    let pager = document.querySelector('.pagination')
+    let pagibtn = '';
+    makeClone();
+
+    function makeClone() {
+      for (let i = 0; i < slideCount; i++) {
+        let cloneSlide = slide[i].cloneNode(true);
+        cloneSlide.classList.add('clone');
+        slides.appendChild(cloneSlide);
+        // pager.innerHTML = `<li data-idx="${i}">menu${i}</li>`
+      }
+      for (let i = slideCount - 1; i >= 0; i--) {
+        let cloneSlide = slide[i].cloneNode(true);
+        cloneSlide.classList.add('clone');
+        slides.prepend(cloneSlide);
+      }
+  
+      updateWidth();
+      setInitialPos();
+      setTimeout(function () {
+        slides.classList.add('animated');
+      }, 100);
+
+
+    }
+
+    function updateWidth() {
+      let currentSlides = document.querySelectorAll('.slides li');
+      let newSlideCount = currentSlides.length;
+
+      let newWidth = (slideWidth + slideMargin) * newSlideCount - slideMargin + 'px';
+      slides.style.width = newWidth;
+    }
+
+    function setInitialPos() {
+      let initialTranslateValue = -(slideWidth + slideMargin) * slideCount;
+      slides.style.transform = `translateX(${initialTranslateValue}px)`;
+    }
+
+    nextBtn.addEventListener('click', function () {
+      moveSlide(currentIdx + 1);
+    })
+    prevBtn.addEventListener('click', function () {
+      moveSlide(currentIdx - 1);
+    })
+
+    // 슬라이드 이동 함수
+    function moveSlide(num) {
+      slides.style.left = -num * (slideWidth + slideMargin) + 'px';
+      currentIdx = num;
+      // pager.innerHTML = `<li data-idx="${num}">menu${num}</li>`
+      // page active
+      // for (let j = 0; j < pagination.length; j++) {
+      //   pagination[j].classList.remove('active');
+      // }
+      // pagination[num].classList.add('active');
+
+      if (currentIdx === slideCount || currentIdx === -slideCount) {
+        setTimeout(function () {
+          slides.classList.remove('animated');
+          slides.style.left = '0px';
+          currentIdx = 0;
+        }, 500);
+        setTimeout(function () {
+          slides.classList.add('animated');
+        }, 600);
+      }
+    }
+
+    // moveSlide(0)
+    let timer = false;
+
+    // 자동 슬라이드 함수
+    function autoSlide() {
+      if (timer === false) {
+        timer = setInterval(function () {
+          moveSlide(currentIdx + 1);
+        }, 1000)
+      }
+    }
+    autoSlide();
+
+    function stopSlide() {
+      clearInterval(timer);
+      timer = false;
+    }
+    slides.addEventListener('mouseenter', function () {
+      stopSlide();
+    })
+    slides.addEventListener('mouseleave', function () {
+      autoSlide();
+    })
+
+
+    // for (let i = 0; i < pagination.length; i++) {
+    //   pagination[i].addEventListener('click', function (event) {
+    //     console.log(event.target);
+
+    //     let paginationNum = event.target.getAttribute('data-idx');
+    //     // moveSlide(paginationNum)
+    //   })
+    // }
+
+
+  </script>
+</body>
+
+</html>
