@@ -1,0 +1,23 @@
+
+div.slider .swiper-slide {
+  width: 360px !important;
+  height: 50vh;
+  background: rgb(219, 179, 179);
+}
+div.slider .swiper-slide:not(:last-of-type) {
+  margin-right: 20px;
+}
+/* .slider .swiper-button-prev,
+.slider .swiper-button-next {
+  스와이퍼 버튼 유령화 푸는 방법
+  position: static;
+} */
+
+/* 페이지네이션 커스텀 */
+.swiper-pagination-bullets {
+  position: initial;
+  padding-top: 20px;
+}
+.swiper-pagination-bullets .swiper-pagination-bullet {
+  background: green;
+}

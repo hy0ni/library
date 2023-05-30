@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>swiper 속성 연습</title>
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/swiper-bundle.min.css">
+  <link rel="stylesheet" href="../css/02_swiper.css">
+</head>
+
+<body>
+  <!-- Slider main container -->
+  <div class="slider">
+    <div class="swiper">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">Slide 1</div>
+        <div class="swiper-slide">Slide 2</div>
+        <div class="swiper-slide">Slide 3</div>
+        <div class="swiper-slide">Slide 4</div>
+        <div class="swiper-slide">Slide 5</div>
+        <div class="swiper-slide">Slide 6</div>
+      </div>
+      <!-- If we need pagination -->
+      <div class="swiper-pagination"></div>
+      <!-- <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div> -->
+    </div>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+  <script>
+
+    function Slider__init() {
+      let swiper = new Swiper('.slider .swiper', {
+        slidesPerView: 4, // 한 페이지당 보여줄 갯수
+        width: 360,
+        // slidesPerView: auto, // css width값 변경 가능 기능을 사용 못하네...
+        // spaceBetween: 10, // 슬라이더 간의 간격
+        loop: true, // 기본값 false / true=> slide 반복
+        // navigation: {
+        //   nextEl: '.swiper-button-next',
+        //   prevEl: '.swiper-button-prev',
+        // },
+        pagination: {
+          el: '.swiper-pagination',
+          type: 'bullets', //기본값 //'bullets' | 'fraction' | 'progressbar' | 'custom'
+          clickable: true, // 기본값 false true=> click시 이동 가능
+        },
+        // centeredSlides: true,
+        paginationClickable: true,
+        // slideToClickedSlide: true, //슬라이드 클릭시 슬라이드 만큼 이동하는 기능 작동이 잘 안됨;
+        autoplay: {
+          delay: 1000,
+          // disableOnInteraction: false, // false로 설정하면 사용자 상호작용(스와이프) 후에 자동 재생이 비활성화되지 않고 매번 다시 시작 됩니다.
+          // pauseOnMouseEnter: true, // 마우스 호버시 스와이퍼 멈춤 마우스 클릭 시엔 autoplay 기능 멈춤
+        },
+        // effect: 'fade',
+        // fadeEffect: {
+        //   crossFade: true,
+        // },
+        breakpoints: {
+          360: {
+            slidesPerView: 1,
+          },
+          769: {
+            slidesPerView: 2,
+          },
+          1200: {
+            slidesPerView: 3,
+          }
+        },
+      });
+      $('.slider .swiper-slide').on('mouseenter', function () {
+        swiper.autoplay.stop() // 자동재생 중지
+      })
+      $('.slider .swiper-slide').on('mouseleave', function () {
+        swiper.autoplay.start() // 자동재생 시작
+      })
+      // $('.slider .swiper-slide').on('mouseover', function () {
+      //   swiper.autoplay.stop() // 자동재생 중지
+      //   // swiper.autoplay.resume() // 자동재생 일시중지(스와이퍼 클릭 시 적용됨)
+      // })
+      // $('.slider .swiper-slide').on('mouseout', function () {
+      //   swiper.autoplay.start() // 자동재생 시작
+      //   // swiper.autoplay.pause() // 자동재생 재개
+      // })
+    }
+
+    Slider__init();
+  </script>
+</body>
+
+</html>
