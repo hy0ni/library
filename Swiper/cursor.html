@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>커스텀 커서</title>
+  <link rel="stylesheet" href="../front/resource/css/front.min.css">
+  <style>
+    .carousel {
+      width: 100%;
+      height: 60vh;
+      border: 1px solid #333;
+      box-sizing: border-box;
+      margin-bottom: 30px;
+      font-size: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    a {
+      color: #333;
+      font-size: 1.5rem;
+    }
+
+    .email {
+      margin-right: 20px;
+    }
+
+    .img-1 {
+      width: 100%;
+      background-color: #333;
+      margin-top: 50px;
+    }
+
+    #mouse-cursor {
+      position: absolute;
+      top: 0;
+      left: 0;
+      will-change: transform;
+      /* 처음 화면 로드시 마우스 커서를 보이지 않게 하기위해 -로 준다. */
+      transform: translate3d(-100px, -100px, 0);
+      pointer-events: none;
+      /* 색상변경 */
+      /* mix-blend-mode: difference; */
+    }
+
+    #mouse-cursor>div {
+      position: relative;
+      width: 30px;
+      height: 30px;
+      background-color: #ffd000;
+      /* background-color: #fff; */
+      font-size: 12px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      --cursor-scale: 1;
+      transform: scale3d(var(--cursor-scale), var(--cursor-scale), 1);
+      will-change: transform;
+      transition: transform 150ms ease-in-out,
+        background-color 150ms ease-in-out;
+    }
+
+    #mouse-cursor>div::after {
+      content: attr(data-name);
+      position: absolute;
+      color: #fff;
+      transform: scale(0.45);
+      white-space: nowrap;
+    }
+
+    /* .cursor-text-mod {
+      mix-blend-mode: inherit !important;
+    }
+
+    .cursor-text-mod>div {
+      background-color: #333 !important;
+    } */
+  </style>
+</head>
+
+<body>
+  <div class="carousel" data-cursor="carousel">Carousel</div>
+  <a href="#" class="email" data-cursor="link" data-name="Send Email">aaa@gmail.com</a>
+  <a href="#" class="address" data-cursor="link" data-name="Show Map">주소</a>
+  <img class="img-1" data-cursor="img" src="https://images.unsplash.com/photo-1521489871110-81dc5a61dbda?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=928&q=80" alt="">
+
+  <div id="mouse-cursor">
+    <div></div>
+  </div>
+  <script>
+    const cursorParent = document.querySelector('#mouse-cursor');
+    const cursorChild = cursorParent.children[0]
+    // 마우스 움직일때 
+    window.addEventListener('mousemove', mousemove)
+    // 마우스 클릭했을때
+    window, addEventListener('mousedown', mousedown)
+    window, addEventListener('mouseup', mouseup)
+
+    let scale = 1;
+    let stage = '';
+    let carouselDirection = '';
+    let cursorX = 0, cursorY = 0;
+    function mousemove(e) {
+      cursorX = e.pageX - cursorParent.offsetWidth / 2
+      cursorY = e.pageY - cursorParent.offsetHeight / 2
+      cursorParent.style.transform =
+        `translate3d(${cursorX}px, ${cursorY}px, 0)`;
+
+      switch (e.target.getAttribute('data-cursor')) {
+        case 'carousel':
+          carouselDirection = cursorX < innerWidth / 2 ? 'Prev' : 'Next'
+          cursorChild.setAttribute('data-name', carouselDirection)
+          if (stage === 'carousel') return
+          scale = 3
+          stage = 'carousel'
+          cursorParent.className = 'cursor-text-mode'
+          // console.log('carousel')
+          break
+        case 'link':
+          if (stage === 'link') return
+          scale = 3
+          stage = 'link'
+          cursorChild.setAttribute('data-name', e.target.getAttribute('data-name'))
+          cursorParent.className = 'cursor-text-mode'
+          // console.log('link')
+          break
+        case 'img':
+          if (stage === 'img') return
+          scale = 1
+          stage = 'img'
+          cursorChild.setAttribute('data-name', '')
+          cursorParent.className = ''
+          // console.log('img')
+          break
+        default:
+          if (stage === '') return
+          scale = 1
+          stage = ''
+          cursorChild.setAttribute('data-name', '')
+          cursorParent.className = ''
+          // console.log('default')
+          break
+      }
+      cursorChild.style.setProperty('--cursor-scale', scale)
+    }
+
+    function mousedown(e) {
+      scale *= 0.8
+      cursorChild.style.setProperty('--cursor-scale', scale)
+    }
+    function mouseup(e) {
+      scale *= 1.25
+      cursorChild.style.setProperty('--cursor-scale', scale)
+
+    }
+  </script>
+</body>
+
+</html>
