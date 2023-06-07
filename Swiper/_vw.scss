@@ -1,0 +1,39 @@
+// viewport size 
+// $mobile-size: 768; // 미디어 쿼리에 기준이 되는 수치
+
+// vw 변환 function
+// @function vw($target) {
+//   @if type-of($target)==number {
+//     @return (($target * 100) / $mobile-size) * 1vw;
+//   }
+
+//   @else if type-of($target)==list {
+//     $vw: ();
+
+//     @each $value in $target {
+//       @if type-of($value)==number {
+//         $vw: append($vw, (($value * 100) / $mobile-size) * 1vw);
+//       }
+
+//       @else if type-of($value)==string {
+//         $vw: append($vw, $value);
+//       }
+//     }
+
+//     @return $vw;
+//   }
+
+//   @else {
+//     @return $target;
+//   }
+// }
+
+@function vw($target: 0, $vw: 0) {
+  @if $vw==0 {
+    @return calc((#{$target} * 100 / var(--vw)) * 1vw);
+  }
+
+  @else {
+    @return calc((#{$target} * 100 / #{$vw}) * 1vw)
+  }
+}

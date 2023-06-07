@@ -1,0 +1,378 @@
+@import "vw";
+@import "media_query";
+
+:root {
+  --vw: 1920;
+}
+
+@include notebook {
+  :root {
+    --vw: 1600;
+  }
+}
+
+@include tablet {
+  :root {
+    --vw: 1000;
+  }
+}
+
+@include mobile {
+  :root {
+    --vw: 320;
+  }
+}
+
+.our-step {
+  position: relative;
+  top: 10vh;
+
+  .step {
+    &-num {
+      font-weight: 400;
+      color: #a6a6a6;
+    }
+
+    &-title {
+      font-weight: 700;
+      color: #ff6161;
+    }
+
+    &-description {
+      position: relative;
+      font-weight: 500;
+      color: #333;
+      z-index: 2;
+    }
+
+    &-box {
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-end;
+      position: relative;
+
+      figure {
+        display: flex;
+        align-items: flex-end;
+
+        img {
+          object-fit: contain;
+        }
+      }
+    }
+  }
+
+  .swiper {
+    &-container {
+      position: absolute;
+    }
+
+    &-wrapper {
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    &-slide {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+
+      &::before {
+        content: "";
+        background-repeat: no-repeat;
+        background-size: contain;
+      }
+
+      @for $i from 0 to 6 {
+        &[data-case="#{$i}"]::before {
+          background-image: url("../Swiper/img/03_swiper/icon_default_#{$i}.png");
+        }
+      }
+
+      span {
+        display: block;
+        text-align: center;
+        font-weight: 600;
+        color: #a6a6a6;
+      }
+
+      p {
+        text-align: center;
+        font-weight: 700;
+        color: #333;
+      }
+
+      &-active {
+        p {
+          color: #ff6161;
+        }
+
+        @for $i from 0 to 6 {
+          &[data-case="#{$i}"]::before {
+            background-image: url("../Swiper/img/03_swiper/icon_active_#{$i}.png");
+          }
+        }
+      }
+    }
+  }
+
+  &.desktop {
+    opacity: 1;
+    position: relative;
+    left: inherit;
+  }
+
+  &.mobile {
+    position: absolute;
+    left: -200%;
+    opacity: 0;
+  }
+}
+
+// size
+.our-step {
+  padding: 0 8.333vw vw(260) calc(8.333vw + #{vw(410)});
+
+  .step {
+    &-num {
+      font-size: vw(18);
+      line-height: 100%;
+    }
+
+    &-title {
+      padding: vw(20) 0 vw(16);
+      font-size: vw(32);
+      line-height: 100%;
+    }
+
+    &-description {
+      width: vw(507);
+      height: vw(64);
+      font-size: vw(16);
+      line-height: 160%;
+    }
+
+    &-box {
+      width: 100%;
+
+      figure {
+        width: vw(643);
+        height: vw(442);
+
+        img {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  .swiper {
+    &-container {
+      top: vw(180);
+      left: calc(8.333vw + #{vw(410px)});
+      width: vw(504);
+    }
+
+    &-slide {
+      width: vw(120);
+      margin-right: vw(72);
+      margin-bottom: vw(36);
+
+      &:nth-child(3n) {
+        margin-right: 0;
+      }
+
+      &::before {
+        width: vw(120);
+        height: vw(120);
+      }
+
+      span {
+        margin-top: vw(8);
+        font-size: vw(14);
+      }
+
+      p {
+        font-size: vw(18);
+        line-height: 140%;
+      }
+    }
+  }
+}
+
+//--------------------------------------------------------
+// @ notebook
+// @ 1600
+//--------------------------------------------------------
+@include notebook {
+  .our-step {
+    padding: 0 5vw vw(260) calc(5vw + #{vw(410)});
+
+    .step {
+      &-box {
+        figure {
+          width: vw(600);
+        }
+      }
+    }
+
+    .swiper {
+      &-container {
+        left: calc(5vw + #{vw(410)});
+        width: vw(420);
+      }
+
+      &-slide {
+        width: vw(120);
+        margin-right: vw(24);
+        margin-bottom: vw(24);
+      }
+    }
+  }
+}
+
+//--------------------------------------------------------
+// @ tablet
+// @ 1000
+//--------------------------------------------------------
+@include tablet {
+  .our-step {
+    padding: 0;
+    // top: 0;
+
+    .step {
+      &-header {
+        padding: 0 8vw;
+      }
+
+      &-num {
+        font-size: vw(18);
+      }
+
+      &-title {
+        padding: vw(20) 0 vw(16);
+        font-size: vw(32);
+      }
+
+      &-description {
+        width: 100%;
+        height: vw(52);
+        font-size: vw(16);
+      }
+
+      &-box {
+        position: relative;
+        top: 0;
+        height: auto;
+        justify-content: center;
+
+        figure {
+          position: relative;
+          top: inherit;
+          width: 80%;
+          height: auto;
+          padding-top: vw(24);
+        }
+      }
+    }
+
+    .swiper {
+      &-container {
+        position: relative;
+        top: inherit;
+        left: inherit;
+        width: 100%;
+        padding-bottom: 26vw;
+      }
+
+      &-wrapper {
+        flex-wrap: nowrap;
+      }
+
+      &-slide {
+        width: 25%;
+        padding: 4% 4% 0;
+        margin-right: auto;
+      }
+    }
+
+    &.desktop {
+      position: absolute;
+      left: -200%;
+      opacity: 0;
+    }
+
+    &.mobile {
+      position: relative;
+      left: inherit;
+      opacity: 1;
+    }
+  }
+}
+
+//--------------------------------------------------------
+// @ mobile
+// @ 320
+//--------------------------------------------------------
+@include mobile {
+  .our-step {
+    position: relative;
+
+    .step {
+      &-header {
+        height: vw(70);
+      }
+
+      &-num {
+        font-weight: 700;
+        font-size: vw(12);
+        line-height: 150%;
+        letter-spacing: -0.03em;
+      }
+
+      &-title {
+        padding: vw(2) 0 vw(4);
+        font-size: vw(20);
+        line-height: 130%;
+      }
+
+      &-description {
+        font-size: vw(14);
+      }
+
+      &-box {
+        figure {
+          width: 100%;
+        }
+      }
+    }
+
+    .swiper {
+      &-container {
+        padding-bottom: vw(112);
+      }
+
+      &-slide {
+        width: 28%;
+        padding: vw(24) 0 0;
+
+        &::before {
+          width: vw(68);
+          height: vw(68);
+        }
+
+        span {
+          font-weight: 500;
+          font-size: vw(11);
+          line-height: 100%;
+          margin-top: vw(6);
+        }
+
+        p {
+          font-size: vw(13);
+          margin-top: vw(3);
+        }
+      }
+    }
+  }
+}

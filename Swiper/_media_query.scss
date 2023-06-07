@@ -1,0 +1,66 @@
+/* @media Breakpoints */
+$breakpoint-mobile-fold: 320px;
+$breakpoint-mobile-landscape : 416px;
+$breakpoint-tablet: 769px;
+$breakpoint-notebook: 1280px;
+$breakpoint-desktop: 1920px;
+
+// PC 우선
+
+@mixin mobile-fold {
+
+  //320px -1
+  @media (max-width: #{$breakpoint-mobile-fold - 1px}) {
+    @content;
+  }
+}
+
+@mixin mobile {
+
+  //416px 
+  @media (max-width: #{$breakpoint-mobile-landscape}) {
+    @content;
+  }
+}
+
+@mixin tablet {
+
+  //769px 
+  @media (max-width: #{$breakpoint-tablet}) {
+    @content;
+  }
+}
+
+@mixin notebook {
+
+  //1280px
+  @media (max-width: #{$breakpoint-notebook}) {
+    @content;
+  }
+}
+
+@mixin wide-desktop {
+
+  //1920px
+  @media (min-width: #{$breakpoint-desktop}) {
+    @content;
+  }
+}
+
+@mixin landscape {
+
+  //가로모드
+  @media (orientation: landscape) {
+    @content;
+  }
+}
+
+@mixin portrait {
+
+  //세로모드
+  @media (orientation: portrait) {
+    body {
+      @content;
+    }
+  }
+}

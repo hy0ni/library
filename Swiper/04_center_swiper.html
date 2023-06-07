@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ceter swiper</title>
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.2.0/css/swiper.css">
+  <link rel="stylesheet" href="../css/04_swiper.min.css">
+  <style>
+
+  </style>
+</head>
+
+<body>
+  <article class="our-step mobile">
+    <header class="step-header">
+      <h6 class="step-num">STEP 01</h6>
+      <h4 class="step-title">DISCOVER</h4>
+      <p class="step-description">
+        description01
+      </p>
+    </header>
+    <div class="step-box">
+      <figure>
+        <img class="step-img" src="../Swiper/img/03_swiper/step_img0.png" alt="">
+      </figure>
+    </div>
+    <div class="swiper-container step-swiper"></div>
+  </article>
+
+  <article class="our-step desktop">
+    <header class="step-header">
+      <h6 class="step-num">STEP 01</h6>
+      <h4 class="step-title">DISCOVER</h4>
+      <p class="step-description">
+        description01
+      </p>
+    </header>
+    <div class="step-box">
+      <figure>
+        <img class="step-img" src="../Swiper/img/03_swiper/step_img0.png" alt="">
+      </figure>
+    </div>
+    <div class="swiper-container step-rolling"></div>
+  </article>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.2.0/js/swiper.js"></script>
+  <script>
+    /* ************************ 
+   @ step swiper
+   @
+   * ************************ */
+    let windowWidth = $(window).width();
+    let stepDescription = [
+      'description01',
+      'description02',
+      'description03',
+      'description04',
+      'description05',
+      'description06'
+    ]
+    const $stepSwiper = $('.step-swiper');
+    const $stepRolling = $('.step-rolling');
+    const stepSwiperContents =
+      '<ul class="swiper-wrapper" >' +
+      '  <li class="swiper-slide" data-case="0">' +
+      '    <span>STEP 01</span>' +
+      '     <p>title01</p>' +
+      '  </li>' +
+      '' +
+      '  <li class="swiper-slide" data-case="1">' +
+      '    <span>STEP 02</span>' +
+      '     <p>title02</p>' +
+      '  </li>' +
+      '' +
+      '  <li class="swiper-slide" data-case="2">' +
+      '    <span>STEP 03</span>' +
+      '     <p>title03</p>' +
+      '  </li>' +
+      '  <li class="swiper-slide" data-case="3">' +
+      '    <span>STEP 04</span>' +
+      '    <p>title04</p>' +
+      '  </li>' +
+      '  <li class="swiper-slide" data-case="4">' +
+      '    <span>STEP 05</span>' +
+      '    <p>title05</p>' +
+      '  </li>' +
+      '  <li class="swiper-slide" data-case="5">' +
+      '    <span>STEP 06</span>' +
+      '    <p>title06</p>' +
+      '  </li>' +
+      '</ul>';
+    $stepSwiper.html(stepSwiperContents);
+    $stepRolling.html(stepSwiperContents);
+
+    const stepSwiper = new Swiper('.step-swiper', {
+      centeredSlides: true,
+      slidesPerView: "auto",
+      // roundLengths: true, // 일반 해상도 화면에서 텍스트가 흐려지는 것을 방지하기 위해 슬라이드 너비와 높이 값을 반올림
+      // loopAdditionalSlides: 30, // 슬라이드 loop시 마지막 슬라이드에서 다음 슬라이드가 보여지지 않는 현상 수정
+      slideToClickedSlide: true, // 해당 슬라이드 클릭시 슬라이드 위치로 이동
+      loop: true,
+      speed: 400,
+      autoplay: {
+        delay: 1000, // 자동 재생 시간
+        disableOnInteraction: false, // 기본값은 true 사용자가 상호작용 할 경우 자동재생 멈춤.
+        // 슬라이드를 수동으로 넘기다가 멈추면 다시 알아서 자동 재생되는 것을 원하기 때문에 이 기능은 비활성화.
+      },
+      on: {
+        transitionStart: function () {
+          let slideInx = this.realIndex; //현재 슬라이드 index 갱신
+          const $slide = $('.step-swiper .swiper-slide-active');
+
+          const $ourStep = $('.our-step.mobile')
+          $ourStep.find('.step-img').animate({ opacity: 0 }, 100, () => {
+            $ourStep.find('.step-img').attr('src', `../Swiper/img/03_swiper/step_img${slideInx}.png`);
+            $ourStep.find('.step-img').stop().animate({ opacity: 1 }, 1000)
+          })
+          // $ourStep.find('.step-img').attr('src', `../Swiper/img/03_swiper/step_img${slideInx}.png`)
+          $ourStep.find('.step-title').text($slide.find('p').text());
+          $ourStep.find('.step-num').text($slide.find('span').text());
+          $ourStep.find('.step-description').text(stepDescription[slideInx]);
+        },
+      },
+    });
+
+    let rafId, rafState;
+    let stepNum = 0;
+    let count = 0;
+    function stepRolling() {
+      count += 1;
+      if (count === 120) { // 초당 20프레임 *6
+        count = 0;
+        changeSlide(stepNum);
+        stepNum += 1;
+        if (stepNum === stepDescription.length) stepNum = 0;
+      }
+      rafId = requestAnimationFrame(stepRolling)
+    }
+    stepRolling();
+    $stepRolling.on({
+      'mouseover': function () {
+        cancelAnimationFrame(rafId)
+        rafState = false
+      },
+      'mouseout': function () {
+        if (!rafState) {
+          rafId = requestAnimationFrame(stepRolling);
+          rafState = true
+        }
+      }
+    })
+    $stepRolling.find('.swiper-slide').on({
+      'mouseover': function () {
+        if (!$(this).hasClass('swiper-slide-active')) {
+          let index = $(this).index();
+          changeSlide(index);
+        }
+      },
+    })
+
+    function changeSlide(index) {
+      $this = $stepRolling.find('.swiper-slide').eq(index);
+      $stepRolling.find('.swiper-slide').removeClass('swiper-slide-active');
+      $this.addClass('swiper-slide-active');
+      const $ourStep = $('.our-step.desktop')
+      // img 디졸브
+      $ourStep.find('.step-img').animate({ opacity: 0 }, 100, () => {
+        $ourStep.find('.step-img').attr('src', `../Swiper/img/03_swiper/step_img${index}.png`);
+        $ourStep.find('.step-img').stop().animate({ opacity: 1 }, 1000)
+      })
+      $ourStep.find('.step-title').text($this.find('p').text());
+      $ourStep.find('.step-num').text($this.find('span').text());
+      $ourStep.find('.step-description').text(stepDescription[index]);
+    }
+
+    $(window).on('resize', function () {
+      windowWidth = $(window).width();
+      stepSwiper.update();
+    });
+
+
+
+  </script>
+</body>
+
+</html>
