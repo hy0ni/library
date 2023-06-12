@@ -13,8 +13,11 @@ function saveToDo() {
 function deleteToDo(event) {
   // button click시 li 제거
   const li = event.target.parentElement;
-  console.log(li.id)
   li.remove();
+  // console.log(typeof li.id); // string
+  // 삭제할때도 update
+  toDos = toDos.filter((toDo) => toDo.id !== parseInt(li.id)); // 내가 클릭한 li.id 외 다른 toDo는 남기기 //parseInt string->number type으로 변경
+  saveToDo(); // 삭제 후 저장
 }
 
 function paintToDo(newTodo) {
@@ -49,6 +52,28 @@ const savedToDos = localStorage.getItem(TODOS_KEY);
 // console.log(savedToDos)
 if (savedToDos !== null) {
   const parsedToDos = JSON.parse(savedToDos); // JSON.parse array로 저장
-  toDos = parsedToDos; // 새로운 array생성시 기존 array가져오기
+  toDos = parsedToDos; // local storage update
   parsedToDos.forEach(paintToDo); //array에 있는 각각의 아이템을 화면에 뿌려주기
 }
+
+
+
+
+/*
+// .filter
+{function testFilter1(item) { return item !== 3 }
+[1, 2, 3, 4].filter(testFilter1)
+
+// const arr = ["pizza", "banana", "tomato"];
+// function testFilter2(food) { return food !== "banana" }
+// arr.filter(testFilter2); // => ['pizza', 'tomato']
+
+const arr = [1234, 5454, 223, 122, 45, 6775, 334];
+function testFunction(potato) { return potato <= 1000 }
+arr.filter(testFunction) // => [223, 122, 45, 334]}
+*/
+
+// const arr = [1, 2, 3, 4, 5];
+// const newArr = arr.filter(item => item > 2);
+// console.log(arr); //[1, 2, 3, 4, 5] 기존 arr는 변경되지않음
+// console.log(newArr) // [3, 4, 5] filter값 반영
