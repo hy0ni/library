@@ -17,7 +17,7 @@ function onGeoOk(position) { // 위치를 가져오는데 성공
       const $weather = document.querySelector('#weather span:first-child');
       const $city = document.querySelector('#weather span:last-child');
       $city.innerText = data.name;
-      $weather.innerText = `${data.weather[0].main} / ${data.main.temp}도`;
+      $weather.innerText = `weather: ${data.weather[0].main}\n ${data.main.temp}℃`;
     });
 }
 function onGeoError() { // 위치를 가져오는데 실패
