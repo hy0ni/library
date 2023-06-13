@@ -3,7 +3,7 @@
 // https://openweathermap.org/current
 // https://localhost:
 
-const API_KEY = "eeb24b4daec1eddcb5851946c5444452";
+// const API_KEY = "myAPIKEY";
 
 function onGeoOk(position) { // 위치를 가져오는데 성공
   const lat = position.coords.latitude;//위도 // position.coords공통
