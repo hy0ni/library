@@ -1,3 +1,4 @@
+const modeBtn = document.getElementById('mode-btn');
 const colorOptions = Array.from(document.getElementsByClassName('color-option')); //배열로 변경
 const color = document.getElementById('color');
 const lineWidth = document.getElementById('line-width');
@@ -7,6 +8,7 @@ canvas.width = 800;
 canvas.height = 800;
 ctx.lineWidth = lineWidth.value;
 let isPainting = false;
+let isFilling = false;
 
 function onMove(event) { // 유저가 마우스를 움직이고 
   if (isPainting) {
@@ -43,12 +45,32 @@ function onColorClick(event) {
   color.value = colorValue; // input color변경하여 선택한 색상 확인
 }
 
+function onModeClick() {
+  // 채우기 모드
+  if (isFilling) {
+    isFilling = false;
+    modeBtn.innerText = "Fill"
+  } else {
+    // Draw 모드 
+    isFilling = true;
+    modeBtn.innerText = "Draw"
+  }
+}
+
+function onCanvasClick() {
+  if (isFilling) {
+    // 캔버스 크기의 새로운 사각형을 만들고, 해당 색상으로 채워준다.
+    ctx.fillRect(0, 0, 800, 800);
+  }
+}
+
 canvas.addEventListener('mousemove', onMove);
 canvas.addEventListener('mousedown', startPainting);
 canvas.addEventListener('mouseup', cancelPainting);
 // 캔버스 밖을 벗어났다가 다시 되돌아 왔을때 계속 그려지는 error 수정
 canvas.addEventListener('mouseleave', cancelPainting);
-
+// 
+canvas.addEventListener('click', onCanvasClick);
 
 // input type="range" 수치값 변경 event
 lineWidth.addEventListener('change', onLineWidthChange)
@@ -58,7 +80,8 @@ color.addEventListener('change', onColorChange)
 // console.log(colorOptions);
 colorOptions.forEach(color => color.addEventListener('click', onColorClick));
 
-
+// mode 선택 btn event
+modeBtn.addEventListener('click', onModeClick);
 
 // 보드를 mousemove할때마다 랜덤한 컬러로 선 그리기
 // const colors = [
