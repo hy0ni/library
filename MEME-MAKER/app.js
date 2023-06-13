@@ -1,8 +1,9 @@
+const lineWidth = document.getElementById('line-width');
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 canvas.width = 800;
 canvas.height = 800;
-ctx.lineWidth = 2;
+ctx.lineWidth = lineWidth.value;
 let isPainting = false;
 
 function onMove(event) { // 유저가 마우스를 움직이고 
@@ -12,6 +13,7 @@ function onMove(event) { // 유저가 마우스를 움직이고
     ctx.stroke();
     return;
   }
+  ctx.beginPath(); // 선이 이어지는 것 방지
   // false라면 브러쉬만 움직인다.
   ctx.moveTo(event.offsetX, event.offsetY); //마우스가 있는 곳으로 브러쉬를 움직인다.
 }
@@ -20,14 +22,22 @@ function startPainting() { // isPainting = true;라면 그리고
 }
 function cancelPainting() {
   isPainting = false; // isPainting = false;라면 움직이고
-
+  ctx.beginPath();
 }
+function onLineWidthChange(evet) {
+  // console.log(event.target.value);
+  ctx.lineWidth = event.target.value;
+}
+
 canvas.addEventListener('mousemove', onMove);
 canvas.addEventListener('mousedown', startPainting);
 canvas.addEventListener('mouseup', cancelPainting);
 // 캔버스 밖을 벗어났다가 다시 되돌아 왔을때 계속 그려지는 error 수정
 canvas.addEventListener('mouseleave', cancelPainting);
-// document.addEventListener('mouseup', cancelPainting);
+
+
+// input type="range" 수치값 변경 event
+lineWidth.addEventListener('change', onLineWidthChange)
 
 
 
