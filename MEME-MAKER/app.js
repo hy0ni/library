@@ -1,3 +1,4 @@
+const fileInput = document.getElementById('file');
 const modeBtn = document.getElementById('mode-btn');
 const destroyBtn = document.getElementById('destroy-btn');
 const eraserBtn = document.getElementById('eraser-btn');
@@ -12,7 +13,7 @@ const CANVAS_HEIGHT = 800;
 
 canvas.width = CANVAS_WIDTH;
 canvas.height = CANVAS_HEIGHT;
-ctx.lineWidth = lineWidth.value;
+ctx.lineWidth = lineWidth.value; // javascript가 로드되고 한번 실행됨
 let isPainting = false;
 let isFilling = false;
 
@@ -81,15 +82,28 @@ function onEraserClick() {
   modeBtn.innerText = "Fill"
 }
 
-canvas.addEventListener('mousemove', onMove);
+function onFileChange(event) {
+  console.dir(event.target)
+  const file = event.target.files[0]; // 선택한 파일 가져오기
+  const url = URL.createObjectURL(file); // 선택한 파일을 가리키는 url요청
+  const image = new Image(); // <img src="">
+  image.src = url;
+  image.onload = function () {
+    ctx.drawImage(image, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT); //img 그리기
+    fileInput.value = null; // 또 다른 이미지 추가를 위해
+  }
+  // console.log(url);
+}
+
+
+canvas.addEventListener('mousemove', onMove); // ===  canvas.onmousemove = onMove;
 canvas.addEventListener('mousedown', startPainting);
 canvas.addEventListener('mouseup', cancelPainting);
 // 캔버스 밖을 벗어났다가 다시 되돌아 왔을때 계속 그려지는 error 수정
 canvas.addEventListener('mouseleave', cancelPainting);
-// 
 canvas.addEventListener('click', onCanvasClick);
 
-// input type="range" 수치값 변경 event
+// input type="range" 수치값 변경 감지 event
 lineWidth.addEventListener('change', onLineWidthChange)
 color.addEventListener('change', onColorChange)
 
@@ -104,15 +118,7 @@ modeBtn.addEventListener('click', onModeClick);
 destroyBtn.addEventListener('click', onDestroyClick);
 // 지우개 
 eraserBtn.addEventListener('click', onEraserClick);
-
-
-
-
-
-
-
-
-
+fileInput.addEventListener('change', onFileChange);
 
 
 // 보드를 mousemove할때마다 랜덤한 컬러로 선 그리기
