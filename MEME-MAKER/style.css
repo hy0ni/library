@@ -20,7 +20,7 @@ body {
   cursor: pointer;
 }
 
-#mode-btn {
+button {
   width: 100px;
   height: 40px;
   border: 1px solid #000;
