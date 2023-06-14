@@ -59,11 +59,11 @@ function onModeClick() {
   // 채우기 모드
   if (isFilling) {
     isFilling = false;
-    modeBtn.innerText = "Fill"
+    modeBtn.innerText = "💧 Fill"
   } else {
     // Draw 모드 
     isFilling = true;
-    modeBtn.innerText = "Draw"
+    modeBtn.innerText = "✏️ Draw"
   }
 }
 
@@ -91,9 +91,9 @@ function onFileChange(event) {
   const url = URL.createObjectURL(file); // 선택한 파일을 가리키는 url요청
   const image = new Image(); // <img src="">
   image.src = url;
-  image.onload = function () {
+  image.onload = function () { // 이미지를 불러오는 이벤트 함수
     ctx.drawImage(image, 0, 0, CANVAS_WIDTH, CANVAS_HEIGHT); //img 그리기
-    fileInput.value = null; // 또 다른 이미지 추가를 위해
+    fileInput.value = null; // 또 다른 이미지 추가를 위해 input에 있는 파일 비워주기
   }
   // console.log(url);
 }
@@ -102,19 +102,19 @@ function onDoubleClick(event) {
   // save와 restore 사이에서는 어떤 수정을 해도 저장 되지 않는다.
   // 변경되는 코드가 실행되기 전에 현재 상태와 선택들을 저장하기 때문에
   const text = textInput.value;
-  if (text !== "") {
+  if (text !== "") { // 텍스트의 값이 비어있지 않다면
     ctx.save(); // ctx의 현재 상태, 색상, 스타일 등 모든 것을 저장.
     ctx.lineWidth = 1;
-    ctx.font = "68px serif"
-    ctx.fillText(text, event.offsetX, event.offsetY);
+    ctx.font = "68px sans-serif"
+    ctx.fillText(text, event.offsetX, event.offsetY); // 유저가 캔버스에 더블클릭한 그 위치에 텍스트 배치
     // ctx.strokeText(text, event.offsetX, event.offsetY);
-    ctx.restore(); // 이전에 저장해뒀던 상태로 되돌아감.
+    ctx.restore(); // 이전에 저장해뒀던 상태로 복구.
   }
   // console.log(event.offsetX, event.offsetY);
 }
 
 function onSaveClick() {
-  const url = canvas.toDataURL(); // canvas에 그린 그림을 url로 변환
+  const url = canvas.toDataURL(); // canvas에 그린 그림을 url로 변환 (base64로 인코딩된 url canvas에 그린 그림을 문자열로 표현한 것)
   // 웹사이트로 링크하는 대신 저장된 이미지 url로 링크하는 a태그 생성
   const a = document.createElement('a'); //a 태그 생성해 가짜 링크 만듬
   a.href = url; // 그림 url로 설정
