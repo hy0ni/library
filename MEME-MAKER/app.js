@@ -1,3 +1,4 @@
+const saveBtn = document.getElementById('save');
 const textInput = document.getElementById('text');
 const fileInput = document.getElementById('file');
 const modeBtn = document.getElementById('mode-btn');
@@ -112,6 +113,15 @@ function onDoubleClick(event) {
   // console.log(event.offsetX, event.offsetY);
 }
 
+function onSaveClick() {
+  const url = canvas.toDataURL(); // canvas에 그린 그림을 url로 변환
+  // 웹사이트로 링크하는 대신 저장된 이미지 url로 링크하는 a태그 생성
+  const a = document.createElement('a'); //a 태그 생성해 가짜 링크 만듬
+  a.href = url; // 그림 url로 설정
+  a.download = "myDrawing.png"; // 다운로드시 myDrawing.png라는 파일명으로 저장시킨다고 설정
+  a.click(); //링크를 클릭하면 파일이 다운로드
+}
+
 canvas.addEventListener('dblclick', onDoubleClick); // ===  canvas.onmousemove = onMove;
 canvas.addEventListener('mousemove', onMove); // ===  canvas.onmousemove = onMove;
 canvas.addEventListener('mousedown', startPainting);
@@ -136,7 +146,7 @@ destroyBtn.addEventListener('click', onDestroyClick);
 // 지우개 
 eraserBtn.addEventListener('click', onEraserClick);
 fileInput.addEventListener('change', onFileChange);
-
+saveBtn.addEventListener('click', onSaveClick);
 
 // 보드를 mousemove할때마다 랜덤한 컬러로 선 그리기
 // const colors = [
