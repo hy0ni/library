@@ -20,18 +20,31 @@
     const canvas = document.querySelector('.canvas');
     const context = canvas.getContext('2d');
     let xPos = 10;
+    let timerId;
 
     function draw() {
       context.clearRect(0, 0, canvas.width, canvas.height);
       context.beginPath();
       context.arc(xPos, 150, 10, 0, Math.PI * 2); //Math.PI * 2 === 360
       context.fill();
-      xPos += 3;
-      // console.log('draw');
-      requestAnimationFrame(draw);
+      xPos += 1;
+
+      // if (xPos >= canvas.width - 10) {
+      //   return;
+      // }
+
+      timerId = requestAnimationFrame(draw);
+
+      // if (xPos >= canvas.width - 10) {
+      //   cancelAnimationFrame(timerId);
+      // }
     }
 
     draw();
+
+    canvas.addEventListener('click', () => {
+      cancelAnimationFrame(timerId);
+    })
   </script>
 </body>
 
