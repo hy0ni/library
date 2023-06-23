@@ -41,6 +41,11 @@
       border: 1px solid #eee;
       background: url('image/image01.png') no-repeat 50% 50% / cover;
     }
+
+    img {
+      margin-top: 20px;
+      border: 1px solid #eee;
+    }
   </style>
 </head>
 
@@ -53,12 +58,16 @@
     <button class="btn color-btn" data-color="#99DBF5" data-type="color"></button>
     <button class="btn color-btn" data-color="#C1D0B5" data-type="color"></button>
     <button class="btn image-btn" data-type="image"></button>
+    <button class="save-btn">이미지 저장</button>
+    <div class="result-image"></div>
   </div>
 
   <script>
     const canvas = document.querySelector('.canvas');
     const context = canvas.getContext('2d');
-    const control = document.querySelector('.control')
+    const control = document.querySelector('.control');
+    const saveBtn = document.querySelector('.save-btn');
+    const resultImage = document.querySelector('.result-image');
     let drawingMode; // true일 때만 그리기
     let brush = 'color'; // 'color' or 'image'
     let colorVal = 'black'; // 색상
@@ -96,10 +105,19 @@
       console.log(brush)
     }
 
+    function createImage() {
+      const url = canvas.toDataURL('image/png');
+      const imgElem = new Image();
+      imgElem.src = url;
+      resultImage.appendChild(imgElem);
+      console.log(url)
+    }
+
     canvas.addEventListener('mousedown', downHandler);
     canvas.addEventListener('mousemove', moveHandler);
     canvas.addEventListener('mouseup', upHandler);
     control.addEventListener('click', setColor);
+    saveBtn.addEventListener('click', createImage);
   </script>
 </body>
 
