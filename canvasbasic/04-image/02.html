@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Canvas (그림판)</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    canvas {
+      background: #eee;
+    }
+
+    .btn {
+      cursor: pointer;
+      width: 30px;
+      height: 30px;
+    }
+
+    .color-btn {
+      border: 0;
+      border-radius: 50%;
+    }
+
+    .color-btn[data-color="#e76666"] {
+      background-color: #e76666;
+    }
+
+    .color-btn[data-color="#FFEEBB"] {
+      background-color: #FFEEBB;
+    }
+
+    .color-btn[data-color="#99DBF5"] {
+      background-color: #99DBF5;
+    }
+
+    .color-btn[data-color="#C1D0B5"] {
+      background-color: #C1D0B5;
+    }
+
+    .image-btn {
+      border: 1px solid #eee;
+      background: url('image/image01.png') no-repeat 50% 50% / cover;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Image (그림판)</h1>
+  <canvas class="canvas" width="600" height="400">이 브라우저는 캔버스를 지원하지 않습니다.</canvas>
+  <div class="control">
+    <button class="btn color-btn" data-color="#e76666"></button>
+    <button class="btn color-btn" data-color="#FFEEBB"></button>
+    <button class="btn color-btn" data-color="#99DBF5"></button>
+    <button class="btn color-btn" data-color="#C1D0B5"></button>
+    <button class="btn image-btn"></button>
+  </div>
+
+  <script>
+    const canvas = document.querySelector('.canvas');
+    const context = canvas.getContext('2d');
+    const control = document.querySelector('.control')
+    let drawingMode; // true일 때만 그리기
+    let colorVal = 'black'; // 색상
+
+    function downHandler() {
+      drawingMode = true;
+    }
+    function upHandler() {
+      drawingMode = false;
+    }
+
+    function moveHandler(event) {
+      // console.log(event);
+      if (!drawingMode) return;
+
+      context.beginPath();
+      context.arc(event.offsetX, event.offsetY, 10, 0, Math.PI * 2, false);
+      context.fill();
+    }
+
+    function setColor(event) {
+      colorVal = event.target.dataset.color
+      context.fillStyle = colorVal;
+      // console.log(event.target.dataset.color);
+    }
+
+    canvas.addEventListener('mousedown', downHandler);
+    canvas.addEventListener('mousemove', moveHandler);
+    canvas.addEventListener('mouseup', upHandler);
+    control.addEventListener('click', setColor);
+  </script>
+</body>
+
+</html>
