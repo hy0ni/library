@@ -48,11 +48,11 @@
   <h1>Image (그림판)</h1>
   <canvas class="canvas" width="600" height="400">이 브라우저는 캔버스를 지원하지 않습니다.</canvas>
   <div class="control">
-    <button class="btn color-btn" data-color="#e76666"></button>
-    <button class="btn color-btn" data-color="#FFEEBB"></button>
-    <button class="btn color-btn" data-color="#99DBF5"></button>
-    <button class="btn color-btn" data-color="#C1D0B5"></button>
-    <button class="btn image-btn"></button>
+    <button class="btn color-btn" data-color="#e76666" data-type="color"></button>
+    <button class="btn color-btn" data-color="#FFEEBB" data-type="color"></button>
+    <button class="btn color-btn" data-color="#99DBF5" data-type="color"></button>
+    <button class="btn color-btn" data-color="#C1D0B5" data-type="color"></button>
+    <button class="btn image-btn" data-type="image"></button>
   </div>
 
   <script>
@@ -60,7 +60,11 @@
     const context = canvas.getContext('2d');
     const control = document.querySelector('.control')
     let drawingMode; // true일 때만 그리기
+    let brush = 'color'; // 'color' or 'image'
     let colorVal = 'black'; // 색상
+
+    const imgElem = new Image();
+    imgElem.src = 'image/image01.png';
 
     function downHandler() {
       drawingMode = true;
@@ -73,15 +77,23 @@
       // console.log(event);
       if (!drawingMode) return;
 
-      context.beginPath();
-      context.arc(event.offsetX, event.offsetY, 10, 0, Math.PI * 2, false);
-      context.fill();
+      switch (brush) {
+        case 'color':
+          context.beginPath();
+          context.arc(event.offsetX, event.offsetY, 10, 0, Math.PI * 2, false);
+          context.fill();
+          break;
+        case 'image':
+          context.drawImage(imgElem, event.offsetX, event.offsetY, 50, 50);
+          break;
+      }
     }
 
     function setColor(event) {
-      colorVal = event.target.dataset.color
+      brush = event.target.dataset.type;
+      colorVal = event.target.dataset.color;
       context.fillStyle = colorVal;
-      // console.log(event.target.dataset.color);
+      console.log(brush)
     }
 
     canvas.addEventListener('mousedown', downHandler);
