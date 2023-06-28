@@ -28,10 +28,11 @@
     // 랜덤한 box를 만들어서 그려주고 각각의 box를 클릭했을때 클릭이 되는지 확인
 
     class Box {
-      constructor(index, x, y) {
+      constructor(index, x, y, speed) {
         this.index = index;
         this.x = x;
         this.y = y;
+        this.speed = speed;
         this.width = 100;
         this.height = 100;
         this.draw();
@@ -44,12 +45,27 @@
       }
     }
 
-    let tempX, tempY;
+    function render() {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      let box;
+      for (let i = 0; i < boxes.length; i++) {
+        box = boxes[i];
+        box.x += box.speed;
+        if (box.x > canvas.width) {
+          box.x = -box.width;
+        }
+        box.draw();
+      }
+      requestAnimationFrame(render);
+    }
+
+    let tempX, tempY, tempSpeed;
     // const b = new Box(20, 100);
     for (let i = 0; i < 10; i++) {
       tempX = Math.random() * canvas.width * 0.8;
       tempY = Math.random() * canvas.height * 0.8;
-      boxes.push(new Box(i, tempX, tempY));
+      tempSpeed = Math.random() * 4 + 1; // 1~5사이
+      boxes.push(new Box(i, tempX, tempY, tempSpeed));
     }
 
     canvas.addEventListener('click', e => {
@@ -67,8 +83,13 @@
           selectedBox = box;
         }
       }
-      console.log(selectedBox.index);
+      if (selectedBox) {
+        console.log(selectedBox.index);
+        selectedBox = null;
+      }
     });
+
+    render();
   </script>
 </body>
 
