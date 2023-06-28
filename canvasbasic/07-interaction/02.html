@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Canvas</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    canvas {
+      background: #eee;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Interaction</h1>
+  <canvas class="canvas" width="600" height="400"></canvas>
+
+  <script>
+    const canvas = document.querySelector('.canvas');
+    const context = canvas.getContext('2d');
+    const boxes = [];
+    const mousePos = { x: 0, y: 0 };
+    context.font = 'bold 30px sans-serif';
+
+    // 랜덤한 box를 만들어서 그려주고 각각의 box를 클릭했을때 클릭이 되는지 확인
+
+    class Box {
+      constructor(index, x, y) {
+        this.index = index;
+        this.x = x;
+        this.y = y;
+        this.width = 100;
+        this.height = 100;
+        this.draw();
+      }
+      draw() {
+        context.fillStyle = 'rgba(0,0,0,0.5)';
+        context.fillRect(this.x, this.y, 100, 100);
+        context.fillStyle = '#fff';
+        context.fillText(this.index, this.x + 30, this.y + 30);
+      }
+    }
+
+    let tempX, tempY;
+    // const b = new Box(20, 100);
+    for (let i = 0; i < 10; i++) {
+      tempX = Math.random() * canvas.width * 0.8;
+      tempY = Math.random() * canvas.height * 0.8;
+      boxes.push(new Box(i, tempX, tempY));
+    }
+
+    canvas.addEventListener('click', e => {
+      mousePos.x = e.offsetX;
+      mousePos.y = e.offsetY;
+
+      let box;
+      for (let i = 0; i < boxes.length; i++) {
+        box = boxes[i];
+        if (mousePos.x > box.x &&
+          mousePos.x < box.x + box.width &&
+          mousePos.y > box.y &&
+          mousePos.y < box.y + box.height) {
+          console.log(box.index);
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>
