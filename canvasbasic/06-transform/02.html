@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Canvas</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    .canvas {
+      background: #eee;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Transform</h1>
+  <canvas class="canvas" width="500" height="500"></canvas>
+
+  <script>
+    // const ctx = document.querySelector('.canvas').getContext('2d');
+    const canvas = document.querySelector('.canvas');
+    const ctx = canvas.getContext('2d');
+    let scaleValue = 1;
+    let rotationValue = 0;
+
+    // canvas 내에 rotate는 반지름 값으로 넣어줘야 함.
+    // 360도 === 2PI
+    function toRadion(d) {
+      return d * Math.PI / 180;
+    }
+
+    function draw() {
+      // ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.save();
+      ctx.setTransform(1, 0, 0, 1, 0, 0); // 행렬을 이용한 변환 초기화
+      // ctx.resetTransform(); // setTransform()과 resetTransform() 동일하게 변형 상태를 단위 행렬로 재설정.
+      ctx.translate(350, 350);
+      ctx.scale(scaleValue, scaleValue);
+      ctx.rotate(toRadion(rotationValue));
+      ctx.strokeRect(-50, -50, 100, 100); //변환이 끝난 후 그려주기
+
+
+      ctx.setTransform(1, 0, 0, 1, 0, 0); // 변환 초기화
+      ctx.fillRect(10, 10, 30, 30);
+      ctx.restore();
+
+      scaleValue += 0.05;
+      rotationValue += 1;
+
+      requestAnimationFrame(draw);
+    }
+
+    draw();
+
+  </script>
+</body>
+
+</html>
