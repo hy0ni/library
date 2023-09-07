@@ -18,59 +18,49 @@
   <div class="video-wrap">
     <div class="swiper video-swiper">
       <div class="swiper-wrapper">
-        <div class="swiper-slide swiper-slide-active">
+        <div class="swiper-slide">
           <figure>
             <video preload="none" data-video="jumpvr" poster="" autoplay muted loop playsinline>
-              <source src="https://cms-artifacts.artlist.io/content/template/mp4/816327_Just_Typography-Motion-Studio_Size.mp4?Expires=1999501647236&Key-Pair-Id=K2ZDLYDZI2R1DF&Signature=UvICa7Umy~~FM~LjQjmvdYAWGIqaDzgi3dpTJkgdpsk2hmQULFMYe0QjW8kdpfTU8GT74qmwdLhNjaHKNop1sAh6h~dEBU6pgOSF1lpZjzumo9oSq20WHbGv1WNajtijTKHXvYYYgYui~jMbsKLnAU~gXa0hwCa4jWMXNTsois-~uG21GsxnBjsiGUq-BNRFd6PNamQscyw6ygrecVkM2JO98DQISkyr1BM4MRo5rFuQmg4lopWzyeMRc~pDeKVRzm61FlXxyDD26Cu~c9Q872er960UxexfKni354nh6G-g18ekLtzzigkDKT025XgSPEM2pbg3MYL3UqtyaOeq3w__" type="video/mp4" />
+              <source src="https://v.ftcdn.net/05/52/68/48/700_F_552684813_lvWxSg59amKoZDSbfL04OJDS4YGDTrVO.mp4" type="video/mp4" />
             </video>
           </figure>
         </div>
         <div class="swiper-slide">
           <figure>
-            <a href="#">
-              <img src="https://images.unsplash.com/photo-1683201681334-f25eb7658958?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80" alt="" />
-            </a>
+            <video preload="none" data-video="jumpvr" poster="" autoplay muted loop playsinline>
+              <source src="https://v.ftcdn.net/04/31/96/64/700_F_431966409_EXnhYyqEiF3qcBhHec1PdzY2b3zDLzgP.mp4" type="video/mp4" />
+            </video>
           </figure>
         </div>
         <div class="swiper-slide">
           <figure>
-            <a href="#">
-              <img src="https://images.unsplash.com/photo-1683104691469-7b40f22caec1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80" alt="" />
-            </a>
-          </figure>
-        </div>
-        <div class="swiper-slide">
-          <figure>
-            <a href="#">
-              <img src="https://images.unsplash.com/photo-1683114010575-3ead4403180e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80" alt="" />
-            </a>
+            <video preload="none" data-video="jumpvr" poster="" autoplay muted loop playsinline>
+              <source src="https://cdn.coverr.co/videos/coverr-a-beautiful-domestic-cat-with-green-eyes-4785/1080p.mp4" type="video/mp4" />
+            </video>
           </figure>
         </div>
       </div>
-      <div class="swiper-button-next"></div>
+      <!-- If we need navigation buttons -->
       <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
 
       <ul class="swiper-text">
         <li class="is-active">
-          <h4>video</h4>
-        </li>
-        <li>
-          <a href="#">
-            <h4>text1</h4>
+          <a href="">
+            video01
           </a>
         </li>
         <li>
           <a href="#">
-            <h4>text2</h4>
+            video02
           </a>
         </li>
         <li>
           <a href="#">
-            <h4>text3</h4>
+            video03
           </a>
         </li>
       </ul>
-
     </div>
   </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
@@ -82,24 +72,24 @@
     let $video = $swiper.find(swiperActive).find('video').get(0);
     let isActive = 'is-active';
 
-    const swiper = new Swiper(".video-swiper", {
+    const videoSwiper = new Swiper('.video-swiper', {
       navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
       },
-      // effect: 'fade',
-      touchRatio: 0,
       loop: true,
       on: {
         transitionStart: function () {
-          console.log(this.realIndex)
+          console.log(this.realIndex);
           $swiperText.removeClass(isActive);
           $swiperText.eq(this.realIndex).addClass(isActive);
+
           if ($swiper.find('video').length > 0) {
             $swiper.find('video').each(function () {
               $(this).get(0).pause();
             })
           }
+
         },
         transitionEnd: function () {
           if ($swiper.find(swiperActive).find('video').length > 0) {
@@ -110,8 +100,8 @@
       }
     });
 
-    let cursorL = './img/cursor_swipe_left.svg'
-    let cursorR = './img/cursor_swipe_right.svg'
+    let cursorL = './img/cursor_prev.svg';
+    let cursorR = './img/cursor_next.svg';
     cursor($('.swiper-button-prev'), cursorL);
     cursor($('.swiper-button-next'), cursorR);
 
@@ -122,7 +112,6 @@
         $(this).css('cursor', `url(${attr}), auto`)
       })
     }
-
   </script>
 </body>
 
