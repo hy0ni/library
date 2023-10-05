@@ -1,0 +1,129 @@
+/*********************************************
+/* popup
+*********************************************/
+.dimmed {
+  overflow: hidden;
+}
+
+.dimmed:after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  width: 100%;
+  height: 100%;
+  z-index: 1001;
+}
+
+.popup-wrap.is-open {
+  display: block;
+}
+
+.popup-wrap {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  background: #fff;
+  border-radius: 12px;
+  width: 80%;
+  z-index: 1002;
+  overflow: hidden;
+  transform: translate(-50%, -50%);
+}
+
+.popup-header {
+  position: relative;
+  background: #efefef;
+  width: 100%;
+  min-height: 60px;
+  padding: 1.125rem 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #555;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.popup-header .btn-close {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 60px;
+  height: 60px;
+  color: transparent;
+  font-size: 0;
+  cursor: pointer;
+}
+
+.popup-header .btn-close:before,
+.popup-header .btn-close:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: #000;
+  border-radius: 0.125rem;
+  width: 1px;
+  height: 1.25rem;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.popup-header .btn-close:after {
+  transform: translate(-50%, -50%) rotate(135deg);
+}
+
+.popup-body {
+  background: #fff;
+  padding: 1.5rem 1.25rem;
+  word-break: keep-all;
+}
+
+/* 
+
+.popup-header .popup-title {
+  margin: 0 3.75rem;
+}
+
+
+ */
+
+
+/* popup video 디자인 ***************************************/
+
+.popup-wrap.video,
+.popup-wrap.video .popup-header {
+  background: transparent;
+  overflow: visible;
+}
+
+.popup-wrap.video .popup-header {
+  position: absolute;
+  top: -60px;
+  background: transparent;
+}
+
+.popup-wrap.video .popup-header .btn-close {
+  width: 30px;
+}
+
+.popup-wrap.video .popup-header .btn-close:before,
+.popup-wrap.video .popup-header .btn-close:after {
+  background: #fff;
+}
+
+.popup-wrap.video .popup-body {
+  background: transparent;
+  padding: 0;
+}
+
+.popup-wrap.video .popup-body .video-wrap {
+  position: relative;
+}
+
+.popup-wrap.video .popup-body .video-wrap video {
+  width: 100%;
+}
