@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>video popup</title>
+  <link rel="stylesheet" href="../css/reset.css">
+  <link rel="stylesheet" href="../css/swiper-bundle.min.css">
+  <link rel="stylesheet" href="../css/video_popup.css">
+  <link rel="stylesheet" href="../css/common.css">
+</head>
+
+<body>
+
+  <div class="wrap">
+    <section class="contents-wrap">
+      <div class="swiper video-swiper">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <figure class="video-wrap">
+              <video preload="none" poster="../resource/movie/thumnail/mov_01.png" autoplay muted loop playsinline data-popup="popVideo">
+                <source src="../resource/movie/mov_01.mp4" type="video/mp4" />
+              </video>
+            </figure>
+          </div>
+          <div class="swiper-slide">
+            <figure>
+              <video preload="none" poster="../resource/movie/thumnail/mov_02.png" autoplay muted loop playsinline data-popup="popVideo">
+                <source src="../resource/movie/mov_02.mp4" type="video/mp4" />
+              </video>
+            </figure>
+          </div>
+          <div class="swiper-slide">
+            <figure>
+              <video preload="none" poster="../resource/movie/thumnail/mov_03.png" autoplay muted loop playsinline data-popup="popVideo">
+                <source src="../resource/movie/mov_03.mp4" type="video/mp4" />
+              </video>
+            </figure>
+          </div>
+        </div>
+        <!-- If we need navigation buttons -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+      </div>
+    </section>
+  </div>
+
+  <div id="popVideo" class="popup-wrap video ">
+    <header class="popup-header">
+      <button type="button" class="btn-close" data-lang="common.close">팝업닫기</button>
+    </header>
+    <section class="popup-body">
+      <div class="video-wrap">
+        <video playsinline controls poster="../resource/movie/thumnail/mov_01.png">
+          <source src="../resource/movie/mov_01.mp4" type="video/mp4">
+        </video>
+      </div>
+    </section>
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+  <script>
+    const $swiper = $('.video-swiper');
+    const $swiperText = $('.swiper-text li');
+    const swiperActive = ".swiper-slide-active";
+    let $video = $swiper.find(swiperActive).find('video').get(0);
+    let isActive = 'is-active';
+
+    const videoSwiper = new Swiper('.video-swiper', {
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      loop: true,
+      on: {
+        transitionStart: function () {
+          console.log(this.realIndex);
+          $swiperText.removeClass(isActive);
+          $swiperText.eq(this.realIndex).addClass(isActive);
+
+          if ($swiper.find('video').length > 0) {
+            $swiper.find('video').each(function () {
+              $(this).get(0).pause();
+            })
+          }
+
+        },
+        transitionEnd: function () {
+          if ($swiper.find(swiperActive).find('video').length > 0) {
+            $video = $swiper.find(swiperActive).find('video').get(0);
+            $video.play();
+          }
+        },
+      }
+    });
+
+    //open
+    $('[data-popup]').each(function () {
+      $(this).on('click', function () {
+        if ($('.popup-wrap.is-open').length > 0) {
+          $('.popup-wrap.is-open').each(function () {
+            $(this).css({ 'z-index': 1001 });
+          })
+        }
+        $('#' + $(this).data('popup')).addClass('is-open');
+        dimOpen();
+      })
+    });
+
+    //close
+    $('.btn-close').each(function () {
+      $(this).on('click', function () {
+        $(this).closest('.is-open').removeClass('is-open');
+        if ($('.popup-wrap.is-open').length > 0) {
+          $('.popup-wrap.is-open').last().removeAttr('style');
+        } else {
+          dimClose();
+        }
+      });
+    })
+
+    function dimOpen() {
+      $('body').addClass('dimmed');
+    }
+    function dimClose(id) {
+      $('body').removeClass('dimmed');
+    }
+
+
+    $('.video-swiper .swiper-slide').on('click', function () {
+      let $videoImg = $(this).find('video').attr('poster');
+      let $videoSrc = $(this).find('source').attr('src');
+
+      const $popVideo = $('#popVideo').find('video');
+      const $popSrc = $('#popVideo').find('source');
+      $popVideo.attr('poster', $videoImg);
+      $popSrc.attr('src', $videoSrc);
+
+      $popVideo[0].load();
+      $popVideo[0].play();
+    })
+  </script>
+</body>
+
+</html>
